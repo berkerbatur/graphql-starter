@@ -1,0 +1,48 @@
+version: '3.3'
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:13.0
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  user-service:
+    container_name: user-service
+    build:
+      context: ./microservices/user
+    ports:
+      - "8001:3000"
+    networks:
+      - microservices
+    depends_on:
+      - postgres
+  reward-service:
+    container_name: reward-service
+    build:
+      context: ./microservices/reward
+    ports:
+      - "8002:3000"
+    networks:
+      - microservices
+    depends_on:
+      - postgres
+  api-gateway-service:
+    container_name: api-gateway-service
+    build:
+      context: ./api-gateway/
+    ports:
+      - "8000:3000"
+    networks:
+      - microservices
+    depends_on:
+      - postgres
+networks:
+  microservices:
+volumes:
+  db-data:
