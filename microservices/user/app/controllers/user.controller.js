@@ -65,11 +65,12 @@ exports.findOne = (req, res) => {
     const uid = req.params.uid;
 
     Users.findByPk(uid, {
+        /**
         include: [{
             model: UserRewards,
             as: 'rewards',
             attributes: ['rid']
-        }],
+        }],**/
         })
         .then(data => {
             res.send(data);
@@ -86,6 +87,7 @@ exports.findUsersByReward = (req, res) => {
     const rid_given = req.params.rid;
 
     Users.findAll({
+
         include: [{
             model: UserRewards,
             as: 'rewards',

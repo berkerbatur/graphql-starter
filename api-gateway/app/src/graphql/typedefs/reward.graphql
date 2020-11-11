@@ -1,0 +1,17 @@
+type Reward {
+    id: ID!
+    name: String!
+    amount: Int!
+    expiry_date: String!
+    users: [User]
+}
+
+type Query {
+    rewards: [Reward!]!
+    reward(id:ID!): Reward!
+}
+
+type Mutation {
+    createReward(name: String!, amount: Int!, expiry_date: String!): Reward!
+    assignReward(rid: Int!, uid: Int!): Reward!
+}

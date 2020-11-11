@@ -4,14 +4,16 @@ services:
     container_name: postgres
     image: postgres:13.0
     ports:
-      - "5432:5432"
+      - "54322:5432"
+    networks:
+      - microservices
     volumes:
-      - db-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+
   user-service:
     container_name: user-service
     build:
@@ -22,6 +24,14 @@ services:
       - microservices
     depends_on:
       - postgres
+    links:
+      - postgres:postgres
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: user_db
+
   reward-service:
     container_name: reward-service
     build:
@@ -32,17 +42,24 @@ services:
       - microservices
     depends_on:
       - postgres
-  api-gateway-service:
-    container_name: api-gateway-service
-    build:
-      context: ./api-gateway/
-    ports:
-      - "8000:3000"
-    networks:
-      - microservices
-    depends_on:
-      - postgres
+    links:
+      - postgres:postgres
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: reward_db
+
+#  api-gateway-service:
+#    container_name: api-gateway-service
+#    build:
+#      context: ./api-gateway/
+#    ports:
+#      - "8000:3000"
+#    networks:
+#      - microservices
+#    depends_on:
+#      - postgres
+
 networks:
   microservices:
-volumes:
-  db-data:

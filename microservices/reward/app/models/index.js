@@ -1,11 +1,18 @@
 const dbConfig = require("../config/db.config.js");
 
+var reconnectOptions = {
+    max_retries: 10,
+    onRetry: function(count) {
+        console.log("connection lost, trying to reconnect ("+count+")");
+    }
+};
+
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     dialect: dbConfig.dialect,
     operatorsAliases: false,
-
+    reconnect: reconnectOptions || true,
     pool: {
         max: dbConfig.pool.max,
         min: dbConfig.pool.min,

@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "host.docker.internal",
-    USER: "postgres",
-    PASSWORD: "postgres",
-    DB: "graphql-starter-reward-db",
+    HOST: process.env.POSTGRES_HOST,
+    USER: process.env.POSTGRES_USER,
+    PASSWORD: process.env.POSTGRES_PASSWORD,
+    DB: process.env.POSTGRES_DB,
     dialect: "postgres",
     pool: {
         max: 5,

@@ -4,10 +4,10 @@ module.exports = app => {
     var router = require("express").Router();
 
     // Create a new Reward
-    router.post("/add", rewards.create);
+    router.post("/create", rewards.create);
 
     // Create a new User Reward relation
-    router.post("/reward", rewards.addUserReward);
+    router.post("/assign", rewards.addUserReward);
 
     // Retrieve all Rewards
     router.get("/", rewards.findAll);
@@ -27,5 +27,5 @@ module.exports = app => {
     // Delete all rewards
     router.delete("/", rewards.deleteAll);
 
-    app.use('/api/rewards', router);
+    app.use('/api', router);
 };

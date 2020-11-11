@@ -1,2 +1,2 @@
-CREATE DATABASE graphql-starter-user-db;
-CREATE DATABASE graphql-starter-reward-db;
+CREATE DATABASE user_db;
+CREATE DATABASE reward_db;
