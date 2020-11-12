@@ -9,7 +9,12 @@
     "start:debug": "ndb ts-node src/index.ts",
     "start:dev": "ts-node app/src/index.ts"
   },
-  "keywords": ["graphql", "apollo", "typescript", "api gateway"],
+  "keywords": [
+    "graphql",
+    "apollo",
+    "typescript",
+    "api gateway"
+  ],
   "author": "berkerbatur",
   "license": "ISC",
   "dependencies": {
@@ -24,6 +29,7 @@
     "graphql-tools": "^7.0.1",
     "nodemon": "^2.0.6",
     "prettier": "^2.1.2",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
   },
   "devDependencies": {
