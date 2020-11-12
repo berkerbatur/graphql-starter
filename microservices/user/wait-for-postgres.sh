@@ -1,5 +1,7 @@
 #!/bin/sh
 # wait-for-postgres.sh
+# sleep at least 4 seconds first
+sleep 4
 
 set -e
 
