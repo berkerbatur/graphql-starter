@@ -51,6 +51,9 @@ Demonstration of Apollo Graphql server with Typescript on top of two Rest APIs d
 
 
 ## Notes
+##### ERRORS
+- [X] Restart user-service and reward-service if they are unable to connect postgres container when started.
+
 ##### TODO
 Following improvements might be considered:
 
