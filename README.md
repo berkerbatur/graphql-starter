@@ -18,6 +18,9 @@ Demonstration of Apollo Graphql server with Typescript on top of two Rest APIs d
 - [X] docker-compose -f docker.compose.yaml up -d
 
 ## Usage
+- [X] Graphql running at localhost on port: 8000.
+- [X] Playground is also available at http://localhost:8000.
+
 #### Available Graphql Queries & Mutations
 
 | Query/Mutation        |  Example                                      | Notes                                 |
