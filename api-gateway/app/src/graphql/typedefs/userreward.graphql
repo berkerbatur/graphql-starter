@@ -1,0 +1,4 @@
+type UserReward {
+    uid: Int!
+    rid: Int!
+}

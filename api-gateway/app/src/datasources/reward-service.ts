@@ -4,10 +4,10 @@ import {dataSources} from './';
 export class RewardService extends RESTDataSource {
     constructor() {
         super();
+        // @TODO Use service names for rest hosts after Apollo Rest datasouce URL resolution closed.
+        // Until, we use static ips.
         // this.baseURL = process.env.REWARDS_MICROSERVICE_HOST + ':' + process.env.REWARDS_MICROSERVICE_PORT + '/api';
         this.baseURL = 'http://172.25.0.4' + ':' + process.env.REWARDS_MICROSERVICE_PORT + '/api';
-        console.log('Base URL:');
-        console.log(this.baseURL);
         this.httpCache = new HTTPCache()
     }
 

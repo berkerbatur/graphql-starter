@@ -21,16 +21,17 @@ export default {
                 })
                 .then(reward => {
                     return reward;
+                }).catch((err) => {
+                    console.log('Error while creating reward:', err.message);
                 });
         },
 
         assignReward(parent, args) {
-            return dataSources.userService
+            return dataSources.rewardService
                 .assignReward(args.rid, args.uid)
-                .then(userRewardRelation => {
-                    console.log('User-Reward relation added to User Service.');
-                    return dataSources.rewardService.assignReward(userRewardRelation.rid,
-                        userRewardRelation.uid);
+                .then(rewardObject => {
+                    console.log('User-Reward relation added to Reward Service.');
+                    return dataSources.userService.assignReward(rewardObject.id,args.uid);
                 }).catch((err) => {
                     console.log('Error while assigning reward:', err.message);
                 });
