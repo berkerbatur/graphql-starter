@@ -22,6 +22,18 @@ export default {
                 .then(reward => {
                     return reward;
                 });
+        },
+
+        assignReward(parent, args) {
+            return dataSources.userService
+                .assignReward(args.rid, args.uid)
+                .then(userRewardRelation => {
+                    console.log('User-Reward relation added to User Service.');
+                    return dataSources.rewardService.assignReward(userRewardRelation.rid,
+                        userRewardRelation.uid);
+                }).catch((err) => {
+                    console.log('Error while assigning reward:', err.message);
+                });
         }
     },
 

@@ -4,9 +4,10 @@ services:
     container_name: postgres
     image: postgres:13.0
     ports:
-      - "54322:5432"
+      - "54321:5432"
     networks:
-      - microservices
+        microservices:
+          ipv4_address: 172.25.0.2
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
@@ -21,7 +22,8 @@ services:
     ports:
       - "8001:3000"
     networks:
-      - microservices
+      microservices:
+        ipv4_address: 172.25.0.3
     depends_on:
       - postgres
     links:
@@ -39,7 +41,8 @@ services:
     ports:
       - "8002:3000"
     networks:
-      - microservices
+      microservices:
+        ipv4_address: 172.25.0.4
     depends_on:
       - postgres
     links:
@@ -50,16 +53,32 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: reward_db
 
-#  api-gateway-service:
-#    container_name: api-gateway-service
-#    build:
-#      context: ./api-gateway/
-#    ports:
-#      - "8000:3000"
-#    networks:
-#      - microservices
-#    depends_on:
-#      - postgres
+  api-gateway-service:
+    container_name: api-gateway-service
+    build:
+      context: ./api-gateway/
+    ports:
+      - "8000:4000"
+    networks:
+      microservices:
+        ipv4_address: 172.25.0.5
+    depends_on:
+      - postgres
+      - user-service
+      - reward-service
+    links:
+      - postgres:postgres
+      - user-service:user-service
+      - reward-service:reward-service
+    environment:
+      USERS_MICROSERVICE_HOST: user-service
+      USERS_MICROSERVICE_PORT: 3000
+      REWARDS_MICROSERVICE_HOST: reward-service
+      REWARDS_MICROSERVICE_PORT: 3000
 
 networks:
   microservices:
+    driver: bridge
+    ipam:
+      config:
+          - subnet: 172.25.0.0/24

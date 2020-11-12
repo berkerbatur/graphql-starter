@@ -153,7 +153,6 @@ exports.deleteAll = (req, res) => {
         });
 };
 
-
 // Add a new User-Reward relation
 exports.addUserReward = (req, res) => {
     // Validate request
@@ -170,16 +169,57 @@ exports.addUserReward = (req, res) => {
         rid: req.body.rid
     };
 
-    // Save User Reward relation in the database
-    UserRewards.create(new_user_reward)
-        .then(data => {
-            res.send(data);
+    // var milliseconds = (new Date()).getTime() - Date.parse('2017-03-16T20:37:18.494Z');
+
+    Rewards.findByPk(new_user_reward.rid)
+        .then(reward_obj => {
+            if (Date.now()-Date.parse(reward_obj.expiry_date) < 0) {
+                UserRewards.create(new_user_reward)
+                    .then(data => {
+                        res.send(reward_obj);
+                    }).catch(err => {
+                        console.log(err.message);
+                        res.status(500).send({
+                            message:
+                                "Some error occurred while getting Reward updated."
+                        });
+                    });
+            } else {
+                console.log('Reward has expired');
+                res.status(500).send({
+                    message:
+                        "Some error occurred while creating adding User Reward."
+                });
+            }
         })
         .catch(err => {
             console.log(err.message);
             res.status(500).send({
                 message:
-                    "Some error occurred while creating adding User Reward."
+                    "Some error occurred while getting Reward updated."
             });
         });
+
+    // Save User Reward relation in to the database
+    // UserRewards.create(new_user_reward)
+    //     .then(data => {
+    //         console.log('Will return reward object updated!');
+    //         Rewards.findByPk(data.rid)
+    //             .then(reward_obj => {
+    //                 console.log(reward_obj);
+    //                 res.send(reward_obj);
+    //             }).catch(err => {
+    //                 console.log(err.message);
+    //                 res.status(500).send({
+    //                     message:
+    //                         "Some error occurred while getting Reward updated."
+    //                 });
+    //         });
+    //     }).catch(err => {
+    //         console.log(err.message);
+    //         res.status(500).send({
+    //             message:
+    //                 "Some error occurred while creating adding User Reward."
+    //         });
+    //     });
 };

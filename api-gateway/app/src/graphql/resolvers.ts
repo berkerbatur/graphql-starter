@@ -1,6 +1,8 @@
-import { fileLoader, mergeResolvers } from 'merge-graphql-schemas';
+import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
+import { loadFilesSync } from '@graphql-tools/load-files';
+
 import * as path from 'path';
 
-const resolversArray = fileLoader(path.join(__dirname, './resolvers'));
+const resolversArray = loadFilesSync(path.join(__dirname, './resolvers'));
 
 export const resolvers = mergeResolvers(resolversArray);
